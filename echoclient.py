@@ -1,27 +1,42 @@
 import socket
-import argparse
-import sys
 
+host = ""
+conn = None
 
-def run_client(host, port):
+def start(ip):
+    global host
+    global conn
+
+    # Parse url to host and uri
+    host = ip
+
+    # establishing tcp socket connection
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        conn.connect((host, port))
-        print("Type any thing then ENTER. Press Ctrl+C to terminate")
-        while True:
-            line = sys.stdin.readline(1024)
-            request = line.encode("utf-8")
-            conn.sendall(request)
-            # MSG_WAITALL waits for full request or error
-            response = conn.recv(len(request), socket.MSG_WAITALL)
-            sys.stdout.write("Replied: " + response.decode("utf-8"))
+        conn.connect((host, 80))
+    except:
+        print("connection to host failed")
+    
+    # determine http method
+    send()
+
+def send():
+    global conn
+
+    try:
+        # sendall sending request http message
+        request = "users msg input"
+        conn.sendall(request)
+
+        # make sure to recieve all the bytes, loop until none left to get
+        chunks = []
+        chunk = conn.recv(4096)      
+        while len(chunk) > 0:
+            chunks.append(chunk.decode("ISO-8859-1"))
+            chunk = conn.recv(4096)
+
+        # compile now whole response
+        response = ''.join(chunks)
+        print(response)
     finally:
         conn.close()
-
-
-# Usage: python echoclient.py --host host --port port
-parser = argparse.ArgumentParser()
-parser.add_argument("--host", help="server host", default="localhost")
-parser.add_argument("--port", help="server port", type=int, default=8007)
-args = parser.parse_args()
-run_client(args.host, args.port)

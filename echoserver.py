@@ -1,35 +1,36 @@
 import socket
 import threading
-import argparse
 
+port = 80
 
-def run_server(host, port):
+def start(p):
+    global port
+    if p:
+        port = p
+
+    # Starting http server with a TCP socket
+    # and start the thread to handle a connecting client
     listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        listener.bind((host, port))
+        listener.bind(('', port))
         listener.listen(5)
-        print('Echo server is listening at', port)
+        print('HTTP file server is listening at', port, '\n')
+
         while True:
             conn, addr = listener.accept()
-            threading.Thread(target=handle_client, args=(conn, addr)).start()
+            threading.Thread(target=handleClient, args=(conn, addr)).start()
     finally:
+        print("Closing Program")
         listener.close()
 
 
-def handle_client(conn, addr):
+# Handles a client who has connected to this server by parsing the http response and returning an http request
+def handleClient(conn, addr):
     print('New client from', addr)
     try:
-        while True:
-            data = conn.recv(1024)
-            if not data:
-                break
-            conn.sendall(data)
+        data = conn.recv(4096)
+        data = data.decode("ISO-8859-1")
+        conn.sendall(data)
     finally:
+        print("--------Connection Closed.--------\n")
         conn.close()
-
-
-# Usage python echoserver.py [--port port-number]
-parser = argparse.ArgumentParser()
-parser.add_argument("--port", help="echo server port", type=int, default=8007)
-args = parser.parse_args()
-run_server('', args.port)
