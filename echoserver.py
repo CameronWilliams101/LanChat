@@ -8,13 +8,12 @@ def start(p):
     if p:
         port = p
 
-    # Starting http server with a TCP socket
-    # and start the thread to handle a connecting client
+    # Starting server with a TCP socket. And start the thread to handle a connecting client
     listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         listener.bind(('', port))
         listener.listen(5)
-        print('HTTP file server is listening at', port, '\n')
+        print("Server is listening on port", port, '\n')
 
         while True:
             conn, addr = listener.accept()
@@ -24,13 +23,22 @@ def start(p):
         listener.close()
 
 
-# Handles a client who has connected to this server by parsing the http response and returning an http request
+# Handles a client who has connected to this server by parsing the incoming msg
 def handleClient(conn, addr):
-    print('New client from', addr)
+    print("New client from", addr)
+
     try:
-        data = conn.recv(4096)
-        data = data.decode("ISO-8859-1")
-        conn.sendall(data)
+        # make sure to recieve all the bytes, loop until none left to get
+        chunks = []
+        chunk = conn.recv(4096)      
+        while len(chunk) > 0:
+            chunks.append(chunk.decode("ISO-8859-1"))
+            chunk = conn.recv(4096)
+
+        # compile now whole response
+        incomingMsg = ''.join(chunks)
+
+        print("INCOMING MSG: ", incomingMsg)
     finally:
         print("--------Connection Closed.--------\n")
         conn.close()

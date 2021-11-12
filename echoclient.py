@@ -14,29 +14,21 @@ def start(ip):
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         conn.connect((host, 80))
+        print("onnection to host", host, "succeded.")
     except:
-        print("connection to host failed")
+        print("connection to host", host, "failed.")
+        return
     
-    # determine http method
+    # Send a msg to host
     send()
 
 def send():
     global conn
 
     try:
-        # sendall sending request http message
-        request = "users msg input"
+        # sendall sending message
+        request = input("\nEnter a msg: ")
+        request = request.encode("ISO-8859-1")
         conn.sendall(request)
-
-        # make sure to recieve all the bytes, loop until none left to get
-        chunks = []
-        chunk = conn.recv(4096)      
-        while len(chunk) > 0:
-            chunks.append(chunk.decode("ISO-8859-1"))
-            chunk = conn.recv(4096)
-
-        # compile now whole response
-        response = ''.join(chunks)
-        print(response)
     finally:
         conn.close()

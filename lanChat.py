@@ -8,7 +8,7 @@ def main():
         print("Be a Server \'2\'")
         print("Exit: Terminate program \'0\'")
 
-        operation = input("\nEnter the step you wish to perform:")
+        operation = input("\nEnter the option you wish:")
 
         #Parse input
         try:
@@ -25,7 +25,8 @@ def main():
             print("Goodbye...")
             break
         elif operation == 1:
-            echoclient.start("192.168.1.110")
+            host = input("\nEnter ip-address of host you wish to connect to: ")
+            echoclient.start(host)
         elif operation == 2:
             echoserver.start(80)
 
