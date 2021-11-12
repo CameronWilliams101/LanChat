@@ -35,7 +35,7 @@ def handleClient(connFromClient):
             chunk = connFromClient.recv(4096)
         incomingMsg = ''.join(chunks)
 
-        print("----INCOMING MSG: ", incomingMsg)
+        print("INCOMING MSG:", incomingMsg, "\n\n")
     finally:
         connFromClient.close()
 
@@ -43,6 +43,7 @@ def handleClient(connFromClient):
 # establishing tcp socket connection
 def client():
     serverIP = input("Enter server IP addr you want to connect with:")
+    print("Type your messages")
     while True:
         connToServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
@@ -56,7 +57,8 @@ def client():
 def send(connToServer):
     try:
         # sendall sending message
-        request = input("Message: ")
+        request = input("MY MSG:")
+        print("\n")
         request = request.encode("ISO-8859-1")
         connToServer.sendall(request)
     finally:
