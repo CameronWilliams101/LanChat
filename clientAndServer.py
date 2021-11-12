@@ -1,8 +1,8 @@
 import socket
 import threading
 
-host = "192.168.1.110"
-port = 80
+serverIP = "192.168.1.110"
+port = 5000
 
 # Starting threads. Program will wait for threads to end before closing.
 def start():
@@ -43,10 +43,11 @@ def handleClient(connFromClient):
 
 # establishing tcp socket connection
 def client():
+    serverIP = input("Enter server IP addr you want to connect with: ")
     while True:
         connToServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            connToServer.connect((host, 80))
+            connToServer.connect((serverIP, 80))
         except:
             return
         
