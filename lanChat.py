@@ -1,11 +1,13 @@
 import echoclient
 import echoserver
+import clientAndServer
 
 def main():
     while True:
         print("--------------------LAN Chat--------------------------") 
         print("Be a Client \'1\'")
         print("Be a Server \'2\'")
+        print("Be both Client and Server \'3\'")
         print("Exit: Terminate program \'0\'")
 
         operation = input("\nEnter the option you wish:")
@@ -18,7 +20,7 @@ def main():
             continue
 
         # Operation choice
-        if operation < 0 or operation > 2:
+        if operation < 0 or operation > 3:
             print("Invalid option, try again...")
             continue        
         if operation == 0:
@@ -29,6 +31,9 @@ def main():
             echoclient.start(host)
         elif operation == 2:
             echoserver.start(80)
+        elif operation == 3:
+            clientAndServer.start()
+            break
 
 # Run main
 if __name__ == "__main__":
