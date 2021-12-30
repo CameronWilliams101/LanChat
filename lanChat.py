@@ -9,7 +9,7 @@ msg = None
 targetIP = None
 txtBoxTagCount = 0
 
-def send():
+def send(event = None):
     clientAndServer.connAndSend(targetIP.get(), msg.get())
     msg.delete(0, 'end')
     
@@ -31,6 +31,7 @@ def main():
     window = tk.Tk()
     window.title('LAN Chat')
     window.geometry("800x500")
+    window.bind('<Return>', send)
 
     # Full Terminal mimic
     global txtBox
@@ -69,7 +70,7 @@ def main():
 
     # Ends all threads when window is closed
     os._exit(0)
-    
+
 
 # Run main
 if __name__ == "__main__":
