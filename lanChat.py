@@ -1,24 +1,28 @@
-# pip install tk
 import tkinter as tk
 import clientAndServer
+import os
 
 
 # Global Vars
 txtBox = None
 msg = None
 targetIP = None
+txtBoxTagCount = 0
 
 def send():
     clientAndServer.connAndSend(targetIP.get(), msg.get())
+    msg.delete(0, 'end')
     
 
 def Print(text, colour = "red"):
     global txtBox
+    global txtBoxTagCount
     currLine = txtBox.index("end")
 
     txtBox.insert(tk.END, "\n>" + str(text))
-    txtBox.tag_add("start", currLine, currLine[:-1] + "1")
-    txtBox.tag_config("start", foreground=colour)
+    txtBox.tag_add("tag" + str(txtBoxTagCount), currLine, currLine[:-1] + "1")
+    txtBox.tag_config("tag" + str(txtBoxTagCount), foreground=colour)
+    txtBoxTagCount += 1
 
 
 # Driver
@@ -63,6 +67,9 @@ def main():
     # Begin indefinite loop to run the window---------
     window.mainloop()
 
+    # Ends all threads when window is closed
+    os._exit(0)
+    
 
 # Run main
 if __name__ == "__main__":
