@@ -1,5 +1,6 @@
 # pip install tk
 import tkinter as tk
+from typing import get_origin
 import clientAndServer
 import threading
 
@@ -7,13 +8,14 @@ import threading
 # Global Vars
 txtBox = None
 msg = None
+targetIP = None
 
 def write():
     # threading.Thread(target=clientAndServer.client).start()
     clientAndServer.client(msg.get())
 
 def start():
-    clientAndServer.start(txtBox)
+    clientAndServer.start(txtBox, targetIP.get())
 
 def Print(text):
     global txtBox
@@ -43,9 +45,13 @@ def main():
     txtBox = tk.Text(window, height=20, width=50)
     txtBox.pack()
     txtBox.insert(tk.END, '--------------Welcome to LAN Chat--------------')
-    txtBox.tag_add("intro", "1.0", "1.47")
-    txtBox.tag_config("intro", background="black", foreground="green")
 
+    # Entry for targetIP
+    global targetIP
+    targetIPLable = tk.Label(window, text = "TargetIP").pack()  
+    targetIP = tk.Entry(window)
+    targetIP.pack()
+    
     # Start lanChat client and server button
     button2 = tk.Button(window, text='Start', width=25, command=lambda: start())
     button2.pack()

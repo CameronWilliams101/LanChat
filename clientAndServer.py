@@ -3,10 +3,13 @@ import threading
 import lanChat
 
 port = 5000
+serverIP = ""
 
 # Starting threads. Program will wait for threads to end before closing.
-def start(txtBox):
+def start(txtBox, sIP):
     lanChat.txtBox = txtBox
+    global serverIP
+    serverIP = sIP
     threading.Thread(target=server).start()
 
 
@@ -43,8 +46,8 @@ def handleClient(connFromClient):
 
 # establishing tcp socket connection
 def client(msg):
-    lanChat.Print("Enter server IP addr you want to connect with: 192.168.1.108")
-    serverIP = "192.168.1.108"
+    global serverIP
+    lanChat.Print("Connecting to " + serverIP)
     connToServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         connToServer.connect((serverIP, port))
