@@ -12,13 +12,13 @@ def send():
     clientAndServer.connAndSend(targetIP.get(), msg.get())
     
 
-def Print(text):
+def Print(text, colour = "red"):
     global txtBox
     currLine = txtBox.index("end")
 
     txtBox.insert(tk.END, "\n>" + str(text))
     txtBox.tag_add("start", currLine, currLine[:-1] + "1")
-    txtBox.tag_config("start", foreground="red")
+    txtBox.tag_config("start", foreground=colour)
 
 
 # Driver

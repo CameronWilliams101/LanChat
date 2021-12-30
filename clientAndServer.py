@@ -36,18 +36,16 @@ def handleClient(connFromClient):
             chunk = connFromClient.recv(4096)
         incomingMsg = ''.join(chunks)
 
-        lanChat.Print("INCOMING MSG: " + str(incomingMsg) + "\n\n")
+        lanChat.Print("THEM:" + str(incomingMsg), "blue")
     finally:
         connFromClient.close()
 
 
 def connAndSend(targetIP, msg):
     # establishing tcp socket connection
-    lanChat.Print("Connecting to " + targetIP)
     connToServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         connToServer.connect((targetIP, port))
-        lanChat.Print("Connection Successful")
     except:
         lanChat.Print("Connection failure")
         return
@@ -56,7 +54,7 @@ def connAndSend(targetIP, msg):
     try:
         msg = msg.encode("ISO-8859-1")
         connToServer.sendall(msg)
-        lanChat.Print("Sent msg")
+        lanChat.Print("YOU:" + msg.decode("ISO-8859-1"))
     except:
         lanChat.Print("Failed to send")
         return
