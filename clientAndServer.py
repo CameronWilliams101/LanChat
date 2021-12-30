@@ -1,12 +1,13 @@
 import socket
 import threading
+import lanChat
 
 port = 5000
 
 # Starting threads. Program will wait for threads to end before closing.
-def start():
+def start(txtBox):
+    lanChat.txtBox = txtBox
     threading.Thread(target=server).start()
-    threading.Thread(target=client).start()
 
 
 # Starting server with a TCP socket. And start the thread to handle a connecting client
@@ -15,13 +16,13 @@ def server():
     try:
         listener.bind(('', port))
         listener.listen(5)
-        print("Server is listening on port", port, '\n')
+        lanChat.Print("Server is listening on port " + str(port) + "\n")
 
         while True:
             connFromClient = listener.accept()[0]
             handleClient(connFromClient)
     finally:
-        print("Closing Server")
+        lanChat.Print("Closing Server")
         listener.close()
 
 # Handles a client who has connected to this server by parsing the incoming msg
@@ -35,31 +36,27 @@ def handleClient(connFromClient):
             chunk = connFromClient.recv(4096)
         incomingMsg = ''.join(chunks)
 
-        print("INCOMING MSG:", incomingMsg, "\n\n")
+        lanChat.Print("INCOMING MSG: " + str(incomingMsg) + "\n\n")
     finally:
         connFromClient.close()
 
 
 # establishing tcp socket connection
-def client():
-    serverIP = input("Enter server IP addr you want to connect with:")
-    print("Type your messages")
-    while True:
-        connToServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        try:
-            connToServer.connect((serverIP, port))
-        except:
-            return
-        
-        # Send a msg to host
-        send(connToServer)
-
-def send(connToServer):
+def client(msg):
+    lanChat.Print("Enter server IP addr you want to connect with: 192.168.1.108")
+    serverIP = "192.168.1.108"
+    connToServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        connToServer.connect((serverIP, port))
+    except:
+        lanChat.Print("Failed to send, connection failure")
+    
+    # Send a msg to host
     try:
         # sendall sending message
-        request = input("MY MSG:")
-        print("\n")
-        request = request.encode("ISO-8859-1")
-        connToServer.sendall(request)
-    finally:
-        return
+        print(msg)
+        msg = msg.encode("ISO-8859-1")
+        connToServer.sendall(msg)
+        lanChat.Print("Sent msg")
+    except:
+        lanChat.Print("Failed to send, sendall failure")
