@@ -24,6 +24,9 @@ def Print(text, colour = "red"):
     txtBox.tag_config("tag" + str(txtBoxTagCount), foreground=colour)
     txtBoxTagCount += 1
 
+    # scroll to end of box
+    txtBox.see('end')
+
 
 # Driver
 def main():
