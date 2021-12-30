@@ -3,13 +3,10 @@ import threading
 import lanChat
 
 port = 5000
-serverIP = ""
 
 # Starting threads. Program will wait for threads to end before closing.
-def start(txtBox, sIP):
+def start(txtBox):
     lanChat.txtBox = txtBox
-    global serverIP
-    serverIP = sIP
     threading.Thread(target=server).start()
 
 
@@ -44,22 +41,20 @@ def handleClient(connFromClient):
         connFromClient.close()
 
 
-# establishing tcp socket connection
-def client(msg):
-    global serverIP
-    lanChat.Print("Connecting to " + serverIP)
+def connAndSend(targetIP, msg):
+    # establishing tcp socket connection
+    lanChat.Print("Connecting to " + targetIP)
     connToServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        connToServer.connect((serverIP, port))
+        connToServer.connect((targetIP, port))
+        lanChat.Print("Connection Successful")
     except:
-        lanChat.Print("Failed to send, connection failure")
-    
+        lanChat.Print("Connection failure")
+
     # Send a msg to host
     try:
-        # sendall sending message
-        print(msg)
         msg = msg.encode("ISO-8859-1")
         connToServer.sendall(msg)
         lanChat.Print("Sent msg")
     except:
-        lanChat.Print("Failed to send, sendall failure")
+        lanChat.Print("Failed to send")

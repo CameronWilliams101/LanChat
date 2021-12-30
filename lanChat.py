@@ -1,6 +1,5 @@
 # pip install tk
 import tkinter as tk
-from typing import get_origin
 import clientAndServer
 import threading
 
@@ -10,12 +9,10 @@ txtBox = None
 msg = None
 targetIP = None
 
-def write():
+def send():
     # threading.Thread(target=clientAndServer.client).start()
-    clientAndServer.client(msg.get())
-
-def start():
-    clientAndServer.start(txtBox, targetIP.get())
+    clientAndServer.connAndSend(targetIP.get(), msg.get())
+    
 
 def Print(text):
     global txtBox
@@ -37,7 +34,7 @@ def main():
     global msg
     msg = tk.Entry(window)
     msg.pack()
-    button1 = tk.Button(window, text='Write', width=25, command=lambda: write())
+    button1 = tk.Button(window, text='Send', width=25, command=lambda: send())
     button1.pack()
 
     # Full Terminal mimic
@@ -51,10 +48,9 @@ def main():
     targetIPLable = tk.Label(window, text = "TargetIP").pack()  
     targetIP = tk.Entry(window)
     targetIP.pack()
-    
-    # Start lanChat client and server button
-    button2 = tk.Button(window, text='Start', width=25, command=lambda: start())
-    button2.pack()
+
+    # Start LanChat server
+    clientAndServer.start(txtBox)
 
     # Begin indefinite loop to run the window---------
     window.mainloop()
