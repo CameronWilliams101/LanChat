@@ -30,6 +30,18 @@ def main():
     window.title('LAN Chat')
     window.geometry("800x500")
 
+    # Entry for targetIP
+    global targetIP
+    targetIPLable = tk.Label(window, text = "TargetIP").pack()  
+    targetIP = tk.Entry(window)
+    targetIP.pack()
+
+    # Full Terminal mimic
+    global txtBox
+    txtBox = tk.Text(window, height=20, width=50)
+    txtBox.pack()
+    txtBox.insert(tk.END, '---------------Welcome to LAN Chat----------------')
+
     # Message entry and button
     global msg
     msg = tk.Entry(window)
@@ -37,19 +49,7 @@ def main():
     button1 = tk.Button(window, text='Send', width=25, command=lambda: send())
     button1.pack()
 
-    # Full Terminal mimic
-    global txtBox
-    txtBox = tk.Text(window, height=20, width=50)
-    txtBox.pack()
-    txtBox.insert(tk.END, '--------------Welcome to LAN Chat--------------')
-
-    # Entry for targetIP
-    global targetIP
-    targetIPLable = tk.Label(window, text = "TargetIP").pack()  
-    targetIP = tk.Entry(window)
-    targetIP.pack()
-
-    # Start LanChat server
+    # Start LanChat server---------
     clientAndServer.start(txtBox)
 
     # Begin indefinite loop to run the window---------

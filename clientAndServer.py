@@ -50,6 +50,7 @@ def connAndSend(targetIP, msg):
         lanChat.Print("Connection Successful")
     except:
         lanChat.Print("Connection failure")
+        return
 
     # Send a msg to host
     try:
@@ -58,3 +59,4 @@ def connAndSend(targetIP, msg):
         lanChat.Print("Sent msg")
     except:
         lanChat.Print("Failed to send")
+        return
