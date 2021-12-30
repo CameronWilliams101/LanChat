@@ -1,7 +1,6 @@
 # pip install tk
 import tkinter as tk
 import clientAndServer
-import threading
 
 
 # Global Vars
@@ -10,7 +9,6 @@ msg = None
 targetIP = None
 
 def send():
-    # threading.Thread(target=clientAndServer.client).start()
     clientAndServer.connAndSend(targetIP.get(), msg.get())
     
 
@@ -30,24 +28,34 @@ def main():
     window.title('LAN Chat')
     window.geometry("800x500")
 
-    # Entry for targetIP
-    global targetIP
-    targetIPLable = tk.Label(window, text = "TargetIP").pack()  
-    targetIP = tk.Entry(window)
-    targetIP.pack()
-
     # Full Terminal mimic
     global txtBox
     txtBox = tk.Text(window, height=20, width=50)
     txtBox.pack()
     txtBox.insert(tk.END, '---------------Welcome to LAN Chat----------------')
 
-    # Message entry and button
+    # Pannel 1
+    pannel1 = tk.PanedWindow()
+    pannel1.pack()
+
+    # Target Pannel
+    targetPannel = tk.PanedWindow()
+    global targetIP
+    targetIPLable = tk.Label(window, text = "TargetIP:") 
+    targetIP = tk.Entry(window)
+    targetPannel.add(targetIPLable)
+    targetPannel.add(targetIP)
+    pannel1.add(targetPannel)
+    pannel1.add(tk.Label(window, text = "       Message:"))
+
+    # Msg Pannel
+    msgPannel = tk.PanedWindow()
     global msg
-    msg = tk.Entry(window)
-    msg.pack()
-    button1 = tk.Button(window, text='Send', width=25, command=lambda: send())
-    button1.pack()
+    msg = tk.Entry(window, width=50)
+    msgPannel.add(msg)
+    sendButton = tk.Button(window, text='Send', command=lambda: send())
+    msgPannel.add(sendButton)
+    pannel1.add(msgPannel)
 
     # Start LanChat server---------
     clientAndServer.start(txtBox)
