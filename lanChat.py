@@ -68,6 +68,16 @@ def main():
     # Start LanChat server---------
     clientAndServer.start(txtBox)
 
+    # My IP
+    myIPPannel = tk.PanedWindow()
+    myIPPannel.pack()
+    myIPLable = tk.Label(window, text = "MyIP:")
+    myIP = tk.Text(window, height=1, width=15)
+    myIPPannel.add(myIPLable)
+    myIPPannel.add(myIP)
+    myIP.insert(tk.END, str(clientAndServer.getMyIP()))
+    myIP.config(state=tk.DISABLED)
+
     # Begin indefinite loop to run the window---------
     window.mainloop()
 
