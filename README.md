@@ -7,4 +7,6 @@
 ### 1. Activate venv with ".\venv\Scripts\activate"
 ### 2. Run program with "python .\lanChat.py"
 ### 3. Deactivate venv with "deactivate"
-### 4. Can check "pip list" to see the packages included/required in this project
+### ------------------
+### * Can check "pip list" to see the packages in this project (venv), first activate the venv
+### * To add more packages: actiate venv, pip install just as usual
