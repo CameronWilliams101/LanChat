@@ -78,6 +78,16 @@ def main():
     myIP.insert(tk.END, str(clientAndServer.getMyIP()))
     myIP.config(state=tk.DISABLED)
 
+    # Other IPs
+    otherIPPannel = tk.PanedWindow()
+    otherIPPannel.pack()
+    otherIPLable = tk.Label(window, text = "Other IPs on the Network:")
+    otherIP = tk.Text(window, height=4, width=40)
+    otherIPPannel.add(otherIPLable)
+    otherIPPannel.add(otherIP)
+    otherIP.insert(tk.END, str(clientAndServer.getNetworkIPs()))
+    otherIP.config(state=tk.DISABLED)
+
     # Begin indefinite loop to run the window---------
     window.mainloop()
 

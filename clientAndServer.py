@@ -66,3 +66,6 @@ def getMyIP():
     ip = s.getsockname()[0]
     s.close()
     return ip
+
+def getNetworkIPs():
+    return "Other IPs on this network..."
